@@ -92,14 +92,11 @@ def validateFile(fin):
     return nerror == 0
 
 if __name__ == "__main__":
-    success = 0
+    success = False
     if len(sys.argv) > 1:
         with open(sys.argv[1], "r") as f:
             success = validateFile(f)
     else:
         success = validateFile(sys.stdin)
-    if success:
-        status = 0
-    else:
-        status = 1
+    status = 0 if success else 1
     sys.exit(status)
