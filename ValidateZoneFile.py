@@ -8,7 +8,7 @@ def isCorrectHostName(name):
     if name.find(' ') != -1: # name contains spaces
         return False
     for part in name.split('.'): # split the parts of the server name
-        if not re.match("^[a-zA-Z0-9_\-]+$", part):
+        if not re.match("^[a-zA-Z0-9_\-]*$", part):
             return False
     return True
 

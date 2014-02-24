@@ -11,6 +11,7 @@ class TestIsCorrectZoneFile(unittest.TestCase):
         self.assertTrue(isCorrectHostName("a-b.cmu.edu")) # allow hyphen
         self.assertFalse(isCorrectHostName("cc.cmu .edu")) # spaces not allowed
         self.assertFalse(isCorrectHostName("cc.cmu.edu*")) # invalid char
+        self.assertTrue(isCorrectHostName("cc.cmu.edu.")) # accept empty field
 
     def testIsCorrectInteger(self):
         self.assertTrue(isCorrectInteger("0"))
