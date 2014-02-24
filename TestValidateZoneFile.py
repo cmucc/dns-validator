@@ -35,5 +35,14 @@ class TestIsCorrectZoneFile(unittest.TestCase):
         self.assertFalse(validateRecordPlus(["a.cmu.edu", "b.cmu.edu",
                                             "1234"])[0])
 
+    def testValidateRecordC(self):
+        self.assertTrue(validateRecordC(["a.cmu.edu", "b.cmu.edu"])[0])
+        self.assertTrue(validateRecordC(["a.cmu.edu", "b.cmu.edu",
+                                           "1234"])[0])
+        self.assertFalse(validateRecordC(["a.cmu.edu", "b.cmu.edu",
+                                            "abc"])[0])
+        self.assertTrue(validateRecordC(["a.cmu.edu", "192.168.1.1",
+                                            "1234"])[0])
+
 if __name__ == "__main__":
     unittest.main()

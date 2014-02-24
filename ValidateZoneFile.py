@@ -34,3 +34,14 @@ def validateRecordPlus(fields):
     if len(fields) >= 3 and not isCorrectInteger(fields[2]):
         return (False, "should be an integer: %s" % (fields[2]))
     return (True,)
+
+def validateRecordC(fields):
+    if len(fields) < 2: # check if the record contains at least 2 fields
+        return (False, "+ records must have at least 2 fields")
+    if not isCorrectHostName(fields[0]):
+        return (False, "incorrect hostname: \"%s\"" % (fields[0]))
+    if not isCorrectHostName(fields[1]):
+        return (False, "incorrect ipv4 address: \"%s\"" % (fields[1]))
+    if len(fields) >= 3 and not isCorrectInteger(fields[2]):
+        return (False, "should be an integer: %s" % (fields[2]))
+    return (True,)
