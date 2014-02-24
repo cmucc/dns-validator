@@ -2,6 +2,8 @@
 
 import re
 
+IGNORE_PREFIX="#@Z:'&"
+
 def isCorrectHostName(name):
     if name.find(' ') != -1: # name contains spaces
         return False
@@ -45,3 +47,27 @@ def validateRecordC(fields):
     if len(fields) >= 3 and not isCorrectInteger(fields[2]):
         return (False, "should be an integer: %s" % (fields[2]))
     return (True,)
+
+def stripComments(line):
+    hashIndex = line.find('#')
+    if hashIndex >= 0:
+        return line[:hashIndex]
+    else:
+        return line
+
+def validateLine(line):
+    line = stripComments(line).strip()
+    if len(line) == 0: # empty or comment line
+        return (True,)
+
+    # select validate function based on its prefix
+    prefix = line[0]
+    if prefix in IGNORE_PREFIX:
+        return (True,)
+    fields = line[1:].split(':')
+    if prefix == '+':
+        return validateRecordPlus(fields)
+    elif prefix == 'C':
+        return validateRecordC(fields)
+    else:
+        return (False, "unknown prefix: \"%s\"" % (prefix))

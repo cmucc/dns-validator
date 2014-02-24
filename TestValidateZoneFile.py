@@ -44,5 +44,16 @@ class TestIsCorrectZoneFile(unittest.TestCase):
         self.assertTrue(validateRecordC(["a.cmu.edu", "192.168.1.1",
                                             "1234"])[0])
 
+    def testStripComments(self):
+        self.assertEqual(stripComments("#abcdef"), "")
+        self.assertEqual(stripComments("abc#def"), "abc")
+        self.assertEqual(stripComments("abcdef # #abc"), "abcdef ")
+
+    def testValidateLine(self):
+        self.assertTrue(validateLine("+a.cmu.edu:192.168.1.1:123")[0])
+        self.assertTrue(validateLine("Ca.cmu.edu:192.168.1.1:123")[0])
+        self.assertFalse(validateLine("+a.cmu.edu:b.cmu.edu:123")[0])
+        self.assertTrue(validateLine("Ca.cmu.edu:b.cmu.edu:123")[0])
+
 if __name__ == "__main__":
     unittest.main()
