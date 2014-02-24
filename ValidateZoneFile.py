@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import re
+import sys
 
 IGNORE_PREFIX="#@Z:'&"
 
@@ -71,3 +72,21 @@ def validateLine(line):
         return validateRecordC(fields)
     else:
         return (False, "unknown prefix: \"%s\"" % (prefix))
+
+def reportError(lineno, errmsg):
+    print "error: line %d: %s" % (lineno, errmsg)
+
+def validateFile(fin):
+    lineno = 0
+    for line in fin:
+        lineno += 1
+        (success, errmsg) = validateLine(line)
+        if not success:
+            reportError(lineno, errmsg)
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        with open(sys.argv[1], "r") as f:
+            validateFile(f)
+    else:
+        validateFile(sys.stdin)
