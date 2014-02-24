@@ -1,4 +1,4 @@
-# Validate Tiny-DNS config file
+# Tiny-DNS Validator
 
 This is a simple validator for [Tiny-DNS](http://cr.yp.to/djbdns/tinydns.html)
 config files. It checks for the following properties:
@@ -10,4 +10,4 @@ config files. It checks for the following properties:
 
 There are two implementations, `ValidateZoneFile.py` and `ValidateZoneFile.sh`.
 The python implementation is a lot faster than the bash script implementation
-and is more complete, so please use that one whenever possible.
+and is more robust, so please use that one whenever possible.
