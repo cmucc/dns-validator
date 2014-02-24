@@ -80,9 +80,12 @@ def validateFile(fin):
     lineno = 0
     for line in fin:
         lineno += 1
+        line = line.strip()
         (success, errmsg) = validateLine(line)
         if not success:
             reportError(lineno, errmsg)
+    if line != "": # last line must be a newline
+        reportError(lineno, "file must end with a newline")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
