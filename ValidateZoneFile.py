@@ -23,3 +23,14 @@ def isCorrectIPv4(addr):
         if int(part) > 255: # check if the number is within 0~255
             return False
     return True
+
+def validateRecordPlus(fields):
+    if len(fields) < 2: # check if the record contains at least 2 fields
+        return (False, "+ records must have at least 2 fields")
+    if not isCorrectHostName(fields[0]):
+        return (False, "incorrect hostname: \"%s\"" % (fields[0]))
+    if not isCorrectIPv4(fields[1]):
+        return (False, "incorrect ipv4 address: \"%s\"" % (fields[1]))
+    if len(fields) >= 3 and not isCorrectInteger(fields[2]):
+        return (False, "should be an integer: %s" % (fields[2]))
+    return (True,)

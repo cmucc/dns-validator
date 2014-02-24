@@ -26,5 +26,14 @@ class TestIsCorrectZoneFile(unittest.TestCase):
         self.assertFalse(isCorrectIPv4("255.256.255.255"))
         self.assertFalse(isCorrectIPv4("abc.255.255.255"))
 
+    def testValidateRecordPlus(self):
+        self.assertTrue(validateRecordPlus(["a.cmu.edu", "192.168.1.1"])[0])
+        self.assertTrue(validateRecordPlus(["a.cmu.edu", "192.168.1.1",
+                                           "1234"])[0])
+        self.assertFalse(validateRecordPlus(["a.cmu.edu", "192.168.1.1",
+                                            "abc"])[0])
+        self.assertFalse(validateRecordPlus(["a.cmu.edu", "b.cmu.edu",
+                                            "1234"])[0])
+
 if __name__ == "__main__":
     unittest.main()
