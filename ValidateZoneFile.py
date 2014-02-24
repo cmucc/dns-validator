@@ -78,18 +78,28 @@ def reportError(lineno, errmsg):
 
 def validateFile(fin):
     lineno = 0
+    nerror = 0
     for line in fin:
         lineno += 1
         line = line.strip()
         (success, errmsg) = validateLine(line)
         if not success:
             reportError(lineno, errmsg)
+            nerror += 1
     if line != "": # last line must be a newline
         reportError(lineno, "file must end with a newline")
+        nerror += 1
+    return nerror == 0
 
 if __name__ == "__main__":
+    success = 0
     if len(sys.argv) > 1:
         with open(sys.argv[1], "r") as f:
-            validateFile(f)
+            success = validateFile(f)
     else:
-        validateFile(sys.stdin)
+        success = validateFile(sys.stdin)
+    if success:
+        status = 0
+    else:
+        status = 1
+    sys.exit(status)
