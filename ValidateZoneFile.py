@@ -35,7 +35,7 @@ def validateRecordPlus(fields):
         return (False, "incorrect ipv4 address: \"%s\"" % (fields[1]))
     if len(fields) >= 3 and not isCorrectInteger(fields[2]):
         return (False, "should be an integer: %s" % (fields[2]))
-    return (True,)
+    return (True,"")
 
 def validateRecordC(fields):
     if len(fields) < 2: # check if the record contains at least 2 fields
@@ -46,7 +46,7 @@ def validateRecordC(fields):
         return (False, "incorrect ipv4 address: \"%s\"" % (fields[1]))
     if len(fields) >= 3 and not isCorrectInteger(fields[2]):
         return (False, "should be an integer: %s" % (fields[2]))
-    return (True,)
+    return (True,"")
 
 def stripComments(line):
     hashIndex = line.find('#')
@@ -58,12 +58,12 @@ def stripComments(line):
 def validateLine(line):
     line = stripComments(line).strip()
     if len(line) == 0: # empty or comment line
-        return (True,)
+        return (True,"")
 
     # select validate function based on its prefix
     prefix = line[0]
     if prefix in IGNORE_PREFIX:
-        return (True,)
+        return (True,"")
     fields = line[1:].split(':')
     if prefix == '+':
         return validateRecordPlus(fields)
