@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
+import StringIO
 from ValidateZoneFile import *
 
 class TestIsCorrectZoneFile(unittest.TestCase):
@@ -55,6 +56,12 @@ class TestIsCorrectZoneFile(unittest.TestCase):
         self.assertTrue(validateLine("Ca.cmu.edu:192.168.1.1:123")[0])
         self.assertFalse(validateLine("+a.cmu.edu:b.cmu.edu:123")[0])
         self.assertTrue(validateLine("Ca.cmu.edu:b.cmu.edu:123")[0])
+
+    def testValidateFile(self):
+        self.assertFalse(validateFile(StringIO.StringIO(
+            "+a.cmu.edu:192.168.1.1:123\n"))[0]) # error: no newline at the end
+        self.assertTrue(validateFile(StringIO.StringIO(
+            "+a.cmu.edu:192.168.1.1:123\n\n"))[0])
 
 if __name__ == "__main__":
     unittest.main()

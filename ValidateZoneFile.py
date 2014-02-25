@@ -2,6 +2,7 @@
 
 import re
 import sys
+import StringIO
 
 IGNORE_PREFIX="#@Z:'&"
 
@@ -73,30 +74,32 @@ def validateLine(line):
     else:
         return (False, "unknown prefix: \"%s\"" % (prefix))
 
-def reportError(lineno, errmsg):
-    print "error: line %d: %s" % (lineno, errmsg)
+def reportError(lineno, errmsg, fout=sys.stdout):
+    fout.write("error: line %d: %s\n" % (lineno, errmsg))
 
 def validateFile(fin):
     lineno = 0
     nerror = 0
+    fout = StringIO.StringIO()
     for line in fin:
         lineno += 1
         line = line.strip()
         (success, errmsg) = validateLine(line)
         if not success:
-            reportError(lineno, errmsg)
+            reportError(lineno, errmsg, fout)
             nerror += 1
     if line != "": # last line must be a newline
-        reportError(lineno, "file must end with a newline")
+        reportError(lineno, "file must end with a newline", fout)
         nerror += 1
-    return nerror == 0
+    return (nerror == 0, fout.getvalue())
 
 if __name__ == "__main__":
     success = False
     if len(sys.argv) > 1:
         with open(sys.argv[1], "r") as f:
-            success = validateFile(f)
+            (success, errmsg) = validateFile(f)
     else:
-        success = validateFile(sys.stdin)
-    status = 0 if success else 1
-    sys.exit(status)
+        (success, errmsg) = validateFile(sys.stdin)
+    if not success:
+        sys.stderr.write(errmsg)
+        sys.exit(1)
