@@ -1,0 +1,13 @@
+#!/bin/sh
+# git post-update hook
+# This script should be used in a bare git repo.
+# When someone pushes to the repo (SOURCE), the script will send the changes to
+# the TARGET repo by cd to $TARGET and pulling from $SOURCE.
+
+# Change the TARGET variable to the full path of the target repo
+TARGET=/path/to/target/repo
+
+SOURCE="$PWD" # absolute path of the current git repo
+unset GIT_DIR # allow operating on another repo outside the current directory
+echo "$SOURCE -> $TARGET"
+cd "$TARGET" && git pull "$SOURCE"
